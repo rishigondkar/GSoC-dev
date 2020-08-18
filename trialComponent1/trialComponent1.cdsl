@@ -1,0 +1,15 @@
+import "OmniRobot.idsl";
+import "Laser.idsl";
+import "InnerModelManager.idsl";
+import "RGBD.idsl";
+Component trialComponent1
+{
+    Communications
+    {
+	requires OmniRobot, Laser, InnerModelManager, RGBD;
+    };
+	language Python;
+	gui Qt(QWidget);
+	options agmagent;	
+};
+

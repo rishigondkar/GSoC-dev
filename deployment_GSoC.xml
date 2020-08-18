@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rcmanager>
+
+ <generalInformation>
+  <editor path="kate" dock="false" />
+  <timeouts fixed="1000.0" blink="300.0" />
+  <clicks switch="2.0" interval="400.0" />
+  <graph alpha="80.0" active="true" scale="200.0" />
+  <graphTiming idletime="1000.0" focustime="500.0" fasttime="10.0" fastperiod="2000.0" />
+  <simulation hookes="0.07" springlength="0.5" friction="0.4" step="0.5" fieldforce="20000.0" />
+ </generalInformation>
+ 
+ <node alias="executive" endpoint="agmexecutive:tcp -p 10198">
+  <dependence alias="IS" />
+  <workingDir path="/home/robocomp/" />
+  <upCommand command="rcremote localhost AGMExecutive /home/robocomp/AGM/tools/AGMExecutive_robocomp python2 AGMExecutive_robocomp.py /home/robocomp/robocomp/components/robocomp-viriato/etcSim/executiveGSoC.conf" />
+  <downCommand command="pkill -9 -f AGMExecutive_robocomp.py" />
+  <configFile path="xxx" />
+  <xpos value="12.147260719" />
+  <ypos value="-152.554632846" />
+  <radius value="10.0" />
+  <color value="#33FF33" />
+ </node>
+
+ <node alias="IS" endpoint="IceStorm/TopicManager:default -p 9999">
+  <workingDir path="/home/robocomp/robocomp/components/robocomp-viriato/etcSim/" />
+  <upCommand command="rcremote localhost IS /home/robocomp/robocomp/components/robocomp-viriato/etcSim/ rcnode " />
+  <downCommand command="killall -9 icebox" />
+  <configFile path="" />
+  <xpos value="-25.8301911866" />
+  <ypos value="106.028452594" />
+  <radius value="10.0" />
+  <color value="#FF3333" />
+ </node>
+
+ <node alias="RCIS" endpoint="omnirobot:tcp -p 12238">
+  <workingDir path="/home/robocomp/" />
+  <upCommand command="rcremote localhost RCIS /home/robocomp/robocomp/components/robocomp-viriato/etcSim rcis simulation_GSoC.xml -f 200" />
+  <downCommand command="killall -9 rcis" />
+  <configFile path="" />
+  <xpos value="-135.637300564" />
+  <ypos value="112.334466517" />
+  <radius value="10.0" />
+  <color value="#FF3333" />
+ </node>
+
+ <node alias="mission" endpoint="commonbehavior:tcp -h localhost -p 11247">
+  <dependence alias="executive" />
+  <workingDir path="/home/robocomp/" />
+  <upCommand command="rcremote localhost mission /home/robocomp/ agmmission /home/robocomp/robocomp/components/robocomp-viriato/etcSim/mission.conf" />
+  <downCommand command="killall -9 agmmission" />
+  <configFile path="kate /home/robocomp/robocomp/components/robocomp-viriato/etcSim/mission.conf" />
+  <xpos value="-85.8500602298" />
+  <ypos value="-239.333666022" />
+  <radius value="10.0" />
+  <color value="#AAAAAA" />
+ </node>
+
+ <node alias="localization_GSoC" endpoint="commonbehavior:tcp -p 14351">
+  <dependence alias="executive" />
+  <dependence alias="RCIS" />
+  <workingDir path="/home/robocomp/" />
+  <upCommand command="rcremote localhost localizationAgent /home/robocomp/robocomp/components/robocomp-viriato/components/localizationAgent_RCIS ./bin/localizationAgent --Ice.Config=/home/robocomp/robocomp/components/robocomp-viriato/etcSim/localizationAgent_GSoC.conf" />
+  <downCommand command="killall -9 localizationAgent" />
+  <configFile path="/home/robocomp/robocomp/components/robocomp-viriato/etcSim/localizationAgent_GSoC.conf" />
+  <xpos value="-138.188181907" />
+  <ypos value="-87.1073471072" />
+  <radius value="13.0" />
+  <color value="#FF3333" />
+ </node>
+ 
+ <node alias="humanObserverAgent_GUI" endpoint="commonbehavior:tcp -p 22222"> 
+  <dependence alias="executive" />
+  <workingDir path="/home/robocomp/" />
+  <upCommand command="rcremote localhost humanObserverAgent_GUI /home/robocomp/robocomp/components/robocomp-viriato/components/fakeHumanAgent ./bin/fakeHumanAgent --Ice.Config=/home/robocomp/robocomp/components/robocomp-viriato/etcSim/humanObserverAgent_GSoC.conf" />
+  <downCommand command="killall -9 fakeHumanAgent" />
+  <configFile path="/home/robocomp/robocomp/components/robocomp-viriato/etcSim/humanObserverAgent_GSoC.conf" />
+  <xpos value="138.188181907" />
+  <ypos value="-87.1073471072" />
+  <radius value="13.0" />
+  <color value="#FF3333" />
+ </node>
+ 
+ 
+</rcmanager>
